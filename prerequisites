@@ -1,2 +1,2 @@
 instal ampps
-run ampps as 
+run ampps with sudo QT_X11_NO_MITSHM=1 /usr/local/ampps/Ampps
