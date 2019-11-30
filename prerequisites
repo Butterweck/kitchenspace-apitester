@@ -1,2 +1,3 @@
 instal ampps
 run ampps with sudo QT_X11_NO_MITSHM=1 /usr/local/ampps/Ampps
+enbale the api: https://nickkorbel.com/2013/08/28/extending-phpscheduleit-getting-started-with-the-api/
