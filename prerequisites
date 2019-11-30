@@ -18,6 +18,11 @@ try to call the api via http if https doesnt work
  *
 */
 https://support.plesk.com/hc/en-us/articles/115001338265-How-to-set-up-CORS-cross-origin-resource-sharing-in-Plesk-for-Linux-
+add
+    Access-Control-Allow-Origin: "*"
+    Access-Control-Allow-Headers: X-Booked-SessionToken,X-Booked-UserId
+    Access-Control-Allow-Methods: PUT,GET,POST,DELETE,OPTIONS
+as custom header
 
 /*
  *

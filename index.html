@@ -13,7 +13,7 @@
     <header>
         <div id="nav">
             <ul>
-                <li>Login/Logout</li>
+                <li>Home</li>
                 <li>Book a Kitchenspace</li>
                 <li>See your reservations</li>
             </ul>
@@ -21,8 +21,18 @@
     </header>
     <div id="main">
       <script>
-        setCookies("abc","test")
-        console.log(isUserLoggedIn());
+        user=displayUser();
+        if (!user) {
+          var element = document.getElementById('main')
+          var loginForm = '<form id="login" action="index.html"><input type="text" placeholder="user" id="user"><br><input type="password" placeholder="password" id="password"><br><input type="submit"></form>'
+          element.insertAdjacentHTML('afterbegin', loginForm);
+          $( "#login" ).submit(function( event ) {
+            logIn(document.getElementById('user').value, document.getElementById('password').value)
+            event.preventDefault()
+          });
+        } else {
+          element.insertAdjacentHTML('afterbegin', user);
+        }
       </script>
     </div>
   </body>

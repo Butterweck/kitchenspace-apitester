@@ -1,3 +1,4 @@
 {
-    "base_url":"127.0.0.1"
+    "base_url":"127.0.0.1",
+    "authenticate": "/Authentication/Authenticate",
 }
