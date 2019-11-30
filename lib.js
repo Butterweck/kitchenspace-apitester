@@ -37,8 +37,8 @@ function displayUser() {
 }
 
 function setCookies(session) {
-    Cookies.set("X-Booked-SessionToken", session.sessionToken);
-    Cookies.set("X-Booked-UserId", session.userId);
+    Cookies.set("X-Booked-SessionToken", session.sessionToken)
+    Cookies.set("X-Booked-UserId", session.userId)
     location.reload()
 }
 
