@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kitchenspace Apitester</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+    <script type="text/javascript" language="javascript" src="config.json"></script>
+    <script src="lib.js"></script>
+  </head>
+  <body>
+    <header>
+        <div id="nav">
+            <ul>
+                <li>Login/Logout</li>
+                <li>Book a Kitchenspace</li>
+                <li>See your reservations</li>
+            </ul>
+        </div>
+    </header>
+    <div id="main">
+      <script>
+        setCookies("abc","test")
+        console.log(isUserLoggedIn());
+      </script>
+    </div>
+  </body>
+</html>

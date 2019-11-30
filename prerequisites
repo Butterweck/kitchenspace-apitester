@@ -1,4 +1,27 @@
-instal ampps
-run ampps with sudo QT_X11_NO_MITSHM=1 /usr/local/ampps/Ampps
-enbale the api: https://nickkorbel.com/2013/08/28/extending-phpscheduleit-getting-started-with-the-api/
-try to call via http if https doesnt work
+/*
+ *
+ * enable the api
+ *
+*/
+https://nickkorbel.com/2013/08/28/extending-phpscheduleit-getting-started-with-the-api/
+
+/*
+ *
+ * http
+ *
+*/
+try to call the api via http if https doesnt work
+
+/*
+ *
+ * xorigin
+ *
+*/
+https://support.plesk.com/hc/en-us/articles/115001338265-How-to-set-up-CORS-cross-origin-resource-sharing-in-Plesk-for-Linux-
+
+/*
+ *
+ * Cookie lib
+ *
+*/
+install and link https://github.com/js-cookie/js-cookie
