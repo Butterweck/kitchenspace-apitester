@@ -20,9 +20,20 @@ function callApi(callMethod, callUrl, sendData, donefunc, sendHeader) {
 
 }
 
+function preparePath(key, args) {
+    switch (key) {
+        case "authenticate":
+            return config[key]
+            break
+        case "accountinfo":
+            return config[key] + "/" + args[0]
+            break
+      }
+}
+
 function logIn(username, password) {
     user={"username": username, "password": password}
-    callApi("POST", config["authenticate"], user, setCookies, false)
+    callApi("POST", preparePath("authenticate"), user, setCookies, false)
 }
 
 function displayUser() {
@@ -30,8 +41,8 @@ function displayUser() {
     if (typeof session["X-Booked-SessionToken"] == "undefined" || typeof session["X-Booked-UserId"] == "undefined")  {
         return false
     } else {
-        callUrl = config["accountinfo"] + "/" + session["X-Booked-UserId"]
-        callApi("GET", callUrl, null, showAccountInfo, true)
+        var args = [session["X-Booked-UserId"]]
+        callApi("GET", preparePath("accountinfo", args), null, showAccountInfo, true)
     }
     
 }
@@ -39,6 +50,7 @@ function displayUser() {
 function setCookies(session) {
     Cookies.set("X-Booked-SessionToken", session.sessionToken)
     Cookies.set("X-Booked-UserId", session.userId)
+    console.log("buh")
     location.reload()
 }
 
