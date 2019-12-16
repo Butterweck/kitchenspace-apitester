@@ -17,12 +17,23 @@ try to call the api via http if https doesnt work
  * xorigin
  *
 */
-https://support.plesk.com/hc/en-us/articles/115001338265-How-to-set-up-CORS-cross-origin-resource-sharing-in-Plesk-for-Linux-
-add
-    Access-Control-Allow-Origin: "*"
-    Access-Control-Allow-Headers: X-Booked-SessionToken,X-Booked-UserId
-    Access-Control-Allow-Methods: PUT,GET,POST,DELETE,OPTIONS
-as custom header
+in nginx:
+add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Booked-UserId,X-Booked-SessionToken';
+add_header 'Access-Control-Allow-Origin' '*';
+in booked:
+\lib\WebService\Slim\SlimServer.php writeResponse must be
+public function WriteResponse(RestResponse $restResponse, $statusCode = 200)
+{
+	$this->slim->response()->header('Content-Type', 'application/json');
+	$this->slim->response()->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+	$this->slim->response()->status($statusCode);
+	$this->slim->response()->write(json_encode($restResponse));
+	unset($restResponse);
+}
+in \Web\Services\index.php, add before $app->run
+$app->options('/Accounts/2', function () {
+
+});
 
 /*
  *

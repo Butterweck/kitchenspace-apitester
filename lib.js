@@ -8,14 +8,18 @@ function callApi(callMethod, callUrl, sendData, donefunc, sendHeader) {
         type: callMethod,
     }
     if (sendHeader) {
-        settings["headers"] = getCookies();
+        settings["beforeSend"] =  function(request) {
+            request.setRequestHeader("X-Booked-SessionToken", getCookies()["X-Booked-SessionToken"]);
+            request.setRequestHeader("X-Booked-UserId", getCookies()["X-Booked-UserId"]);
+          };
     }
     if (callMethod == "POST") {
         settings["data"] = JSON.stringify(sendData)
     }
 
     $.ajax(settings).done(function(data) {
-        donefunc(data)
+        console.log(data)
+        donefunc(data);
     })
 
 }
@@ -26,6 +30,7 @@ function preparePath(key, args) {
             return config[key]
             break
         case "accountinfo":
+            //return config[key] 
             return config[key] + "/" + args[0]
             break
       }
@@ -36,21 +41,35 @@ function logIn(username, password) {
     callApi("POST", preparePath("authenticate"), user, setCookies, false)
 }
 
-function displayUser() {
+function isLoggedIn() {
     var session = getCookies()
     if (typeof session["X-Booked-SessionToken"] == "undefined" || typeof session["X-Booked-UserId"] == "undefined")  {
+        
+        /*displaying a login form*/
+        var element = document.getElementById('main')
+        var loginForm = '<form id="login" action="index.html"><input type="text" placeholder="user" id="user"><br><input type="password" placeholder="password" id="password"><br><input type="submit"></form>'
+        element.insertAdjacentHTML('afterbegin', loginForm)
+        $( "#login" ).submit(function( event ) {
+          logIn(document.getElementById('user').value, document.getElementById('password').value)
+          event.preventDefault()
+        });
+
         return false
     } else {
-        var args = [session["X-Booked-UserId"]]
-        callApi("GET", preparePath("accountinfo", args), null, showAccountInfo, true)
+        return true
     }
-    
+}
+
+function getAndDisplayAccount() {
+    var session = getCookies()
+    var args = [session["X-Booked-UserId"]]
+    return callApi("GET", preparePath("accountinfo", args), null, showAccountInfo, true)
 }
 
 function setCookies(session) {
+    console.log(session)
     Cookies.set("X-Booked-SessionToken", session.sessionToken)
     Cookies.set("X-Booked-UserId", session.userId)
-    console.log("buh")
     location.reload()
 }
 
@@ -66,5 +85,10 @@ function getCookies() {
 }
 
 function showAccountInfo(user) {
-    return user
+    var element = document.getElementById('main')
+    element.insertAdjacentHTML('afterbegin', "<p>Great! You're logged in as "
+                                            + user.firstName
+                                            + " "
+                                            + user.lastName
+                                            + "</p>")
 }
