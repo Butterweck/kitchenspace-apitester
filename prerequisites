@@ -31,9 +31,7 @@ public function WriteResponse(RestResponse $restResponse, $statusCode = 200)
 	unset($restResponse);
 }
 in \Web\Services\index.php, add before $app->run
-$app->options('/Accounts/2', function () {
-
-});
+$app->options('/Accounts/:userId', function () {});
 
 /*
  *
