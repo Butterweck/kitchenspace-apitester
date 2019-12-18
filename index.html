@@ -8,26 +8,31 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
     <script type="text/javascript" language="javascript" src="config.json"></script>
     <script src="lib.js"></script>
+    <script src="display.js"></script>
   </head>
   <body>
     <header>
         <div id="nav">
             <ul>
-                <li>Home</li>
-                <li>Book a Kitchenspace</li>
-                <li>See your reservations</li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="ressources.html">See Ressources</a></li>
+                <li><a href="createressource.html">Create a Ressource</a></li>
             </ul>
         </div>
     </header>
-    <div id="main">
-      <script>
+    <div id="main"></div>
+    <div id="footer"></div>
+    <script>
 
-        loggedIn=isLoggedIn()
+      loggedIn=isLoggedIn()
 
-        if (loggedIn) {
-          getAndDisplayAccount()
-        }
-      </script>
-    </div>
+      if (loggedIn) {
+        getAndDisplayAccount()
+        displayLogout()
+      } else if (!loggedIn) {
+        displayLoginForm()
+      }
+
+    </script>
   </body>
 </html>

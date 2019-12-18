@@ -1,4 +1,6 @@
 {
     "base_url":"127.0.0.1",
-    "authenticate": "/Authentication/Authenticate",
+    "login": "/Authentication/Authenticate",
+    "logout": "/Authentication/SignOut",
+    "accountinfo": "/Accounts",
 }

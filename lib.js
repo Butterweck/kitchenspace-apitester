@@ -18,7 +18,6 @@ function callApi(callMethod, callUrl, sendData, donefunc, sendHeader) {
     }
 
     $.ajax(settings).done(function(data) {
-        console.log(data)
         donefunc(data);
     })
 
@@ -26,11 +25,11 @@ function callApi(callMethod, callUrl, sendData, donefunc, sendHeader) {
 
 function preparePath(key, args) {
     switch (key) {
-        case "authenticate":
+        case "login":
+        case "logout":
             return config[key]
             break
         case "accountinfo":
-            //return config[key] 
             return config[key] + "/" + args[0]
             break
       }
@@ -38,39 +37,22 @@ function preparePath(key, args) {
 
 function logIn(username, password) {
     user={"username": username, "password": password}
-    callApi("POST", preparePath("authenticate"), user, setCookies, false)
+    callApi("POST", preparePath("login"), user, setCookies, false)
+}
+
+function logOut() {
+    session=getCookies()
+    logoutSession={"sessionToken": session["X-Booked-SessionToken"], "userId": session["X-Booked-UserId"]}
+    callApi("POST", preparePath("logout"), logoutSession, deleteCookies, false)
 }
 
 function isLoggedIn() {
     var session = getCookies()
     if (typeof session["X-Booked-SessionToken"] == "undefined" || typeof session["X-Booked-UserId"] == "undefined")  {
-        
-        /*displaying a login form*/
-        var element = document.getElementById('main')
-        var loginForm = '<form id="login" action="index.html"><input type="text" placeholder="user" id="user"><br><input type="password" placeholder="password" id="password"><br><input type="submit"></form>'
-        element.insertAdjacentHTML('afterbegin', loginForm)
-        $( "#login" ).submit(function( event ) {
-          logIn(document.getElementById('user').value, document.getElementById('password').value)
-          event.preventDefault()
-        });
-
         return false
     } else {
         return true
     }
-}
-
-function getAndDisplayAccount() {
-    var session = getCookies()
-    var args = [session["X-Booked-UserId"]]
-    return callApi("GET", preparePath("accountinfo", args), null, showAccountInfo, true)
-}
-
-function setCookies(session) {
-    console.log(session)
-    Cookies.set("X-Booked-SessionToken", session.sessionToken)
-    Cookies.set("X-Booked-UserId", session.userId)
-    location.reload()
 }
 
 function getCookies() {
@@ -81,14 +63,16 @@ function getCookies() {
     } else {
         return null
     }
-    
 }
 
-function showAccountInfo(user) {
-    var element = document.getElementById('main')
-    element.insertAdjacentHTML('afterbegin', "<p>Great! You're logged in as "
-                                            + user.firstName
-                                            + " "
-                                            + user.lastName
-                                            + "</p>")
+function setCookies(session) {
+    Cookies.set("X-Booked-SessionToken", session.sessionToken)
+    Cookies.set("X-Booked-UserId", session.userId)
+    location.reload()
+}
+
+function deleteCookies(data) {
+    Cookies.remove("X-Booked-SessionToken")
+    Cookies.remove("X-Booked-UserId")
+    location.reload()
 }

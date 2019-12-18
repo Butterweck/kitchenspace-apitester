@@ -33,10 +33,3 @@ public function WriteResponse(RestResponse $restResponse, $statusCode = 200)
 in \Web\Services\index.php, add before $app->run
 $app->options('/Accounts/:userId', function () {});
 see: https://bitbucket.gilbert.me/projects/FF/repos/booked-core/commits/9115c0978671e28b6574d4c41fcf12f0bb150405
-
-/*
- *
- * Cookie lib
- *
-*/
-install and link https://github.com/js-cookie/js-cookie
